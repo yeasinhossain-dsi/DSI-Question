@@ -42,7 +42,10 @@ const userStore: StateCreator<UserState, [], [], UserState> = (set, get) => ({
 
   googleLogout() {
     googleLogout();
-    set({ userDetails: { data: null, fetchingStatus: FETCHING_STATUS.IDLE } });
+    set({
+      authStatus: AUTH_STATUS.UNAUTHENTICATED,
+      userDetails: { data: null, fetchingStatus: FETCHING_STATUS.IDLE },
+    });
     removeUserInfoFromLocalStorage();
   },
 
