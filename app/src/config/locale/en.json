@@ -1,0 +1,8 @@
+{
+  "application.name": "Question Bank",
+  "heading.welcome": "Welcome to Question Bank",
+  "label.email": "Email",
+  "label.name": "Name",
+  "link.signOut": "Log Out",
+  "placeholder.signInWithEmail": "Sign in with Google"
+}
