@@ -13,6 +13,7 @@ function App() {
       await refreshAuthStatus();
     })();
   }, []);
+
   return (
     <>
       {authStatus === AUTH_STATUS.FETCHING ? (

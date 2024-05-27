@@ -1,8 +1,8 @@
 import Login from "@/features/auth/Login.tsx";
 import ProtectedLayout from "@/layout/ProtectedLayout.tsx";
 import { createBrowserRouter } from "react-router-dom";
-import Sample from "../features/sample/Sample.tsx";
 import PublicLayout from "@/layout/PublicLayout.tsx";
+import Questions from "@/features/questions/Questions";
 
 const router = createBrowserRouter([
   {
@@ -15,16 +15,16 @@ const router = createBrowserRouter([
     errorElement: <div>Error</div>,
   },
   {
-    path: "/sample",
+    path: "/questions",
     element: (
       <ProtectedLayout>
-        <Sample />
+        <Questions />
       </ProtectedLayout>
     ),
     children: [
       {
-        path: "/sample/:sampleId",
-        element: <Sample />,
+        path: "/questions/:sampleId",
+        element: <Questions />,
       },
     ],
   },

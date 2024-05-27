@@ -18,7 +18,7 @@ const Login = () => {
           <img src={loginHero} />
         </div>
         <div className="flex flex-col justify-evenly items-center border border-l bg-slate-800 p-6 gap-10">
-          <h1 className="mb-4 text-4xl font-light leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+          <h1 className="mb-4 text-4xl font-light leading-none tracking-tight text-white md:text-5xl lg:text-6xl ">
             <FormattedMessage id="heading.welcome" />
           </h1>
           <div className="App">

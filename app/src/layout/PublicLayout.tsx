@@ -10,7 +10,7 @@ const PublicLayout = ({ children }: IProps) => {
   const { authStatus } = useStore();
 
   if (authStatus === AUTH_STATUS.AUTHENTICATED) {
-    return <Navigate to="/sample" replace />;
+    return <Navigate to="/questions" replace />;
   }
 
   return children;
