@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/react";
+import "flowbite/dist/flowbite.css"; // Add Flowbite CSS here
 
 const preview: Preview = {
   parameters: {

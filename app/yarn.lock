@@ -5560,7 +5560,7 @@ flowbite-react@^0.9.0:
     react-icons "5.0.1"
     tailwind-merge "2.2.2"
 
-flowbite@2.3.0:
+flowbite@2.3.0, flowbite@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/flowbite/-/flowbite-2.3.0.tgz#0730e35d8b0d1dcdea26bb27d848bd9c0141cde1"
   integrity sha512-pm3JRo8OIJHGfFYWgaGpPv8E+UdWy0Z3gEAGufw+G/1dusaU/P1zoBLiQpf2/+bYAi+GBQtPVG86KYlV0W+AFQ==
