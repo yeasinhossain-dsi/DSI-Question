@@ -50,9 +50,14 @@ const TableComponent = ({
               </Table.Cell>
             </Table.Row>
           ) : data.length === 0 ? (
-            <Table.Cell colSpan={headerColumns.length} className="text-center">
-              {noDataText}
-            </Table.Cell>
+            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell
+                colSpan={headerColumns.length}
+                className="text-center"
+              >
+                {noDataText}
+              </Table.Cell>
+            </Table.Row>
           ) : (
             data.map((row, index) => (
               <Table.Row
