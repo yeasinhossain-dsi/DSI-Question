@@ -9,5 +9,12 @@
   "button.save": "Save",
   "button.close": "Close",
   "placeholder.signInWithEmail": "Sign in with Google",
-  "form.label.title": "Title"
+  "form.label.title": "Title",
+  "tab.label.latest": "Latest",
+  "tab.label.approved": "Approved",
+  "tab.label.myQuestion": "My Questions",
+  "common.label.fetching": "Fetching...",
+  "common.label.noData": "No Data found",
+
+  "questions.label.noUnApproved": "No un-approved questions found"
 }

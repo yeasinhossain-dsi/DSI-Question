@@ -1,18 +1,18 @@
+import TableComponent from "@/components/base/table/Table";
 import { Button, Tabs } from "flowbite-react";
+import { useState } from "react";
 import { FaCrown, FaUser } from "react-icons/fa";
 import { GoVerified } from "react-icons/go";
-import { useParams } from "react-router-dom";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { FormattedMessage, useIntl } from "react-intl";
 import { toast } from "react-toastify";
-import { FormattedMessage } from "react-intl";
 import NewQuestionModal from "./NewQuestionModal";
-import { useState } from "react";
+import useQuestions from "./useQuestions";
 
 const Questions = () => {
-  const params = useParams();
-  console.log(params);
-
+  const intl = useIntl();
   const [show, setShow] = useState(false);
+  const { headers, tableData, isLoading } = useQuestions();
 
   return (
     <>
@@ -35,14 +35,39 @@ const Questions = () => {
           </Button>
         </div>
         <Tabs aria-label="Default tabs" style="underline">
-          <Tabs.Item active title="Latest" icon={FaCrown}>
-            Approved Questions
+          <Tabs.Item
+            active
+            title={intl.formatMessage({ id: "tab.label.latest" })}
+            icon={FaCrown}
+          >
+            <TableComponent
+              isLoading={isLoading}
+              data={[]}
+              headerColumns={headers}
+              noDataText={intl.formatMessage({
+                id: "questions.label.noUnApproved",
+              })}
+            />
           </Tabs.Item>
-          <Tabs.Item title="Approved" icon={GoVerified}>
-            Latest Questions
+          <Tabs.Item
+            title={intl.formatMessage({ id: "tab.label.approved" })}
+            icon={GoVerified}
+          >
+            <TableComponent
+              isLoading={isLoading}
+              data={tableData}
+              headerColumns={headers}
+            />
           </Tabs.Item>
-          <Tabs.Item title="My Questions" icon={FaUser}>
-            My questions
+          <Tabs.Item
+            title={intl.formatMessage({ id: "tab.label.myQuestion" })}
+            icon={FaUser}
+          >
+            <TableComponent
+              isLoading={isLoading}
+              data={[]}
+              headerColumns={headers}
+            />
           </Tabs.Item>
         </Tabs>
       </div>
