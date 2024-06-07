@@ -1,16 +1,22 @@
 import axios from "axios";
 import { IUser } from "../../store/user";
+import { Constants } from "@/config/constants";
+
+export interface IUserDetailsResponse {
+  userDetails: IUser;
+  jwtToken: string;
+}
 
 export const getUserDetails = async (
   token: string
-): Promise<{ data: IUser }> => {
-  return await axios.get(
-    `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
+): Promise<IUserDetailsResponse> => {
+  const result = await axios.get(
+    `${Constants.API_BASE_URL}/auth?accessToken=${token}`,
     {
       headers: {
-        Authorization: `Bearer ${token}`,
         Accept: "application/json",
       },
     }
   );
+  return result?.data;
 };

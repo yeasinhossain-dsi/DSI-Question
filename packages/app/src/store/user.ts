@@ -10,15 +10,10 @@ import { FETCHING_STATUS } from "../config/constants";
 import { getUserDetails } from "../features/auth/authService";
 
 export interface IUser {
-  email: string;
-  family_name: string;
-  given_name: string;
   id: string;
-  locale: string;
+  email: string;
   name: string;
   picture: string;
-  verified_email: boolean;
-  access_token: string;
 }
 
 export enum AUTH_STATUS {
@@ -28,9 +23,17 @@ export enum AUTH_STATUS {
   FETCHING,
 }
 
+export interface IUserDetails {
+  data: IUser | null;
+  jwtToken: string | null;
+  accessToken: string | null;
+}
+
 export type UserState = {
   authStatus: AUTH_STATUS;
-  userDetails: { data: IUser | null; fetchingStatus: FETCHING_STATUS };
+  userDetails: IUserDetails & {
+    fetchingStatus: FETCHING_STATUS;
+  };
   refreshAuthStatus: () => Promise<void>;
   getUserDetails: (token: string) => void;
   googleLogout: () => void;
@@ -38,19 +41,28 @@ export type UserState = {
 
 const userStore: StateCreator<UserState, [], [], UserState> = (set, get) => ({
   authStatus: AUTH_STATUS.NOT_INITIALIZED,
-  userDetails: { data: null, fetchingStatus: FETCHING_STATUS.IDLE },
+  userDetails: {
+    data: null,
+    jwtToken: null,
+    accessToken: null,
+    fetchingStatus: FETCHING_STATUS.IDLE,
+  },
 
   googleLogout() {
     googleLogout();
     set({
       authStatus: AUTH_STATUS.UNAUTHENTICATED,
-      userDetails: { data: null, fetchingStatus: FETCHING_STATUS.IDLE },
+      userDetails: {
+        data: null,
+        jwtToken: null,
+        accessToken: null,
+        fetchingStatus: FETCHING_STATUS.IDLE,
+      },
     });
     removeUserInfoFromLocalStorage();
   },
 
   refreshAuthStatus: async () => {
-    console.log("Refreshing refreshAuthStatus =======");
     const user = getUserInfoFromLocalStorage();
     if (null === user) {
       set(
@@ -67,27 +79,31 @@ const userStore: StateCreator<UserState, [], [], UserState> = (set, get) => ({
       })
     );
 
-    return await get().getUserDetails(user.access_token);
+    return await get().getUserDetails(user.accessToken as string);
   },
 
-  getUserDetails: async (access_token: string) => {
+  getUserDetails: async (accessToken: string) => {
     try {
       set(
         produce((state: UserState) => {
           state.userDetails.fetchingStatus = FETCHING_STATUS.FETCHING;
         })
       );
-      const user = await getUserDetails(access_token);
-      const userDetailsData = { ...user.data, access_token };
+      const userDetails = await getUserDetails(accessToken);
       set(
         produce((state: UserState) => {
           state.userDetails.fetchingStatus = FETCHING_STATUS.SUCCESS;
-          state.userDetails.data = userDetailsData;
+          state.userDetails.data = userDetails.userDetails;
+          state.userDetails.jwtToken = userDetails.jwtToken;
           state.authStatus = AUTH_STATUS.AUTHENTICATED;
         })
       );
 
-      setUserInfoToLocalStorage(userDetailsData);
+      setUserInfoToLocalStorage({
+        accessToken,
+        data: userDetails.userDetails,
+        jwtToken: userDetails.jwtToken,
+      });
     } catch (ex) {
       get().googleLogout();
       set(

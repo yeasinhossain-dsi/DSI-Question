@@ -19,7 +19,7 @@ import com.dsi.questionBank.api.reposotories.QuestionRepository;
 public class QuestionService {
 
     public enum QuestionType {
-        LATEST, APPROVED
+        latest, approved
     }
 
     private final QuestionRepository questionRepository;
@@ -46,7 +46,7 @@ public class QuestionService {
     }
 
     public Set<Question> findAllByApproveStatus(QuestionType questionType) {
-        if (questionType.equals(QuestionType.APPROVED))
+        if (questionType.equals(QuestionType.approved))
             return questionRepository.findApprovedQuestions();
         return questionRepository.findUnapprovedQuestions();
     }

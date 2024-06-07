@@ -1,8 +1,8 @@
 import Header from "@/components/base/header/Header";
 import useStore from "@/store";
 import { AUTH_STATUS } from "@/store/user";
-import { Navigate } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { Navigate } from "react-router-dom";
 
 interface IProps {
   children: JSX.Element;
@@ -15,21 +15,23 @@ const ProtectedLayout = ({ children }: IProps) => {
     googleLogout,
   } = useStore();
 
-  if (authStatus === AUTH_STATUS.UNAUTHENTICATED || userDetails === null) {
+  if (authStatus === AUTH_STATUS.UNAUTHENTICATED) {
     return <Navigate to="/" replace />;
   }
 
   return (
-    <>
-      <Header
-        applicationName={<FormattedMessage id="application.name" />}
-        email={userDetails.email}
-        logout={googleLogout}
-        name={`${userDetails.given_name} ${userDetails.family_name}`}
-        picture={userDetails.picture}
-      />
-      <div className="p-6">{children}</div>
-    </>
+    userDetails && (
+      <>
+        <Header
+          applicationName={<FormattedMessage id="application.name" />}
+          email={userDetails.email}
+          logout={googleLogout}
+          name={`${userDetails.name}`}
+          picture={userDetails.picture}
+        />
+        <div className="p-6">{children}</div>
+      </>
+    )
   );
 };
 

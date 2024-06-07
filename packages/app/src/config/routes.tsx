@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/questions/:sampleId",
+        path: "/questions/:questionStatus",
         element: <Questions />,
       },
     ],

@@ -32,8 +32,8 @@ const TableComponent = ({
     <div className={`overflow-x-auto ${className}`}>
       <Table>
         <Table.Head>
-          {headerColumns.map((column) => (
-            <Table.HeadCell key={column.key} className={column.className}>
+          {headerColumns.map((column, index) => (
+            <Table.HeadCell key={index} className={column.className}>
               {column.label}
             </Table.HeadCell>
           ))}
@@ -64,8 +64,8 @@ const TableComponent = ({
                 key={index}
                 className="bg-white dark:border-gray-700 dark:bg-gray-800"
               >
-                {headerColumns.map((column) => (
-                  <Table.Cell key={column.key} className={column.className}>
+                {headerColumns.map((column, key) => (
+                  <Table.Cell key={key} className={column.className}>
                     {row[column.key]}
                   </Table.Cell>
                 ))}
