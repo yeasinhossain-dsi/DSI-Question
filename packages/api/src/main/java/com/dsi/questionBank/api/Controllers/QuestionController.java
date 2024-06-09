@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dsi.questionBank.api.Config.ErrorCode;
 import com.dsi.questionBank.api.DTO.QuestionRequest;
+import com.dsi.questionBank.api.DTO.QuestionsSimpleListResponse;
 import com.dsi.questionBank.api.Domains.Question;
 import com.dsi.questionBank.api.Domains.User;
 import com.dsi.questionBank.api.Exceptions.ValidationException;
@@ -25,6 +26,7 @@ import com.dsi.questionBank.api.Services.QuestionService;
 import com.dsi.questionBank.api.Services.QuestionService.QuestionType;
 
 import jakarta.validation.Valid;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/question")
@@ -41,6 +43,7 @@ public class QuestionController {
     @GetMapping("")
     public Set<Question> getQuestions(@RequestParam(required = false) QuestionType questionType)
             throws UsernameNotFoundException {
+
         if (null == questionType) {
             User user = jwtService.getUserFromJWT();
             if (null == user)
@@ -49,6 +52,7 @@ public class QuestionController {
             return questionService.findAllByAuthor(user);
         }
         return questionService.findAllByApproveStatus(questionType);
+
     }
 
     @PostMapping("")
@@ -72,9 +76,9 @@ public class QuestionController {
     }
 
     @GetMapping("/remove/{questionId}")
-    public String remove(@RequestParam UUID questionId) {
+    public void remove(@PathVariable UUID questionId) {
         User remover = jwtService.getUserFromJWT();
-        return new String();
+        questionService.remove(questionId, remover);
     }
 
 }

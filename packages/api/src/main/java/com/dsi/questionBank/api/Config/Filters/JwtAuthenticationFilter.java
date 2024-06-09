@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
             handlerExceptionResolver.resolveException(request, response, null,
-                    new UnauthorizedException("Invalid access token"));
+                    new UnauthorizedException(ErrorCode.UN_AUTHENTICATED));
         }
     }
 }

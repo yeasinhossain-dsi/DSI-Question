@@ -33,12 +33,14 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    public Question save(QuestionRequest question, User author) {
-        Question q = new Question();
-        q.setTitle(question.getTitle());
-        q.setContent(question.getContent());
-        q.setAuthor(author);
-        return questionRepository.save(q);
+    public Question save(QuestionRequest questionFormData, User author) {
+        Question question = new Question();
+        if (null != questionFormData.getId())
+            question = questionRepository.findById(questionFormData.getId()).orElse(new Question());
+        question.setTitle(questionFormData.getTitle());
+        question.setContent(questionFormData.getContent());
+        question.setAuthor(author);
+        return questionRepository.save(question);
     }
 
     public Set<Question> findAllByAuthor(User user) {
@@ -64,11 +66,8 @@ public class QuestionService {
         return save(question);
     }
 
-    public void remove(UUID questionId, User remover) throws NotFoundException {
-        Question question = questionRepository.findById(questionId).orElseThrow(NotFoundException::new);
-        if (question.getAuthor().getId().equals(remover.getId()))
-            questionRepository.deleteById(questionId);
-        throw new CustomException(ErrorCode.CANNOT_REMOVE_QUESTION);
+    public void remove(UUID questionId, User remover) {
+        questionRepository.deleteById(questionId);
     }
 
 }
