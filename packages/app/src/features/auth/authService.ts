@@ -1,6 +1,5 @@
-import axios from "axios";
+import { get } from "@/utils/http";
 import { IUser } from "../../store/user";
-import { Constants } from "@/config/constants";
 
 export interface IUserDetailsResponse {
   userDetails: IUser;
@@ -10,13 +9,5 @@ export interface IUserDetailsResponse {
 export const getUserDetails = async (
   token: string
 ): Promise<IUserDetailsResponse> => {
-  const result = await axios.get(
-    `${Constants.API_BASE_URL}/auth?accessToken=${token}`,
-    {
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  );
-  return result?.data;
+  return get(`/auth?accessToken=${token}`);
 };

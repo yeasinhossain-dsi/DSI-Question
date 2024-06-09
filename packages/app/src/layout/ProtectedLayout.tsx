@@ -1,8 +1,9 @@
 import Header from "@/components/base/header/Header";
 import useStore from "@/store";
 import { AUTH_STATUS } from "@/store/user";
+import { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   children: JSX.Element;
@@ -10,14 +11,17 @@ interface IProps {
 
 const ProtectedLayout = ({ children }: IProps) => {
   const { authStatus } = useStore();
+  const navigate = useNavigate();
   const {
     userDetails: { data: userDetails },
     googleLogout,
   } = useStore();
 
-  if (authStatus === AUTH_STATUS.UNAUTHENTICATED) {
-    return <Navigate to="/" replace />;
-  }
+  useEffect(() => {
+    if (authStatus === AUTH_STATUS.UNAUTHENTICATED) {
+      navigate("/");
+    }
+  }, [authStatus]);
 
   return (
     userDetails && (

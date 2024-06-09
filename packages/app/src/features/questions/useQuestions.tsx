@@ -1,73 +1,78 @@
-import { IColumn } from "@/components/base/table/Table";
 import { FETCHING_STATUS } from "@/config/constants";
 import useStore from "@/store";
-import { QuestionStatus } from "@/store/question";
+import { IQuestionForm, QuestionStatus } from "@/store/question";
 import { useEffect, useState } from "react";
+import {
+  approveQuestion,
+  deleteQuestion,
+  saveQuestions,
+} from "./QuestionService";
 
 const useQuestions = () => {
-  const [tableData, setTableData] = useState<any[]>([]);
-  const { getQuestion, questionFetchingStatus, questions } = useStore();
-
-  const headers = [
-    {
-      key: "title",
-      label: "Title",
-    },
-    {
-      key: "author",
-      label: "Author",
-    },
-    {
-      key: "approver",
-      label: "Approver",
-    },
-    {
-      key: "action",
-      label: "",
-    },
-  ] as IColumn[];
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [hasError, setError] = useState<boolean>(false);
+  const { getQuestion, questionFetchingStatus } = useStore();
 
   useEffect(() => {
-    const tempTableData: any[] = [];
+    setIsLoading(questionFetchingStatus === FETCHING_STATUS.FETCHING);
+    setError(questionFetchingStatus === FETCHING_STATUS.ERROR);
+  }, [questionFetchingStatus]);
 
-    questions.map((question) => {
-      tempTableData.push({
-        title: question.title,
-        author: (
-          <div className="flex gap-2 content-center items-center">
-            <img
-              className="rounded-full"
-              width={36}
-              src={question.author.picture}
-            />
-            {question.author.name}
-          </div>
-        ),
-        approver: question.approvers.map((approver, key) => {
-          return (
-            <div key={key} className="flex gap-2 content-center items-center">
-              <img className="rounded-full" width={36} src={approver.picture} />
-              {approver.name}
-            </div>
-          );
-        }),
-        createdAt: question.id,
-        content: question.content,
-        action: <></>,
-      });
-    });
-
-    setTableData(tempTableData);
-  }, [questions]);
-
-  const fetch = async (status: QuestionStatus) => {
+  const fetch = async (status?: QuestionStatus) => {
     return await getQuestion(status);
   };
+
+  const save = async (payload: IQuestionForm) => {
+    let response;
+    setIsLoading(false);
+    setError(false);
+    try {
+      response = await saveQuestions(payload);
+    } catch (ex) {
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+    return response;
+  };
+
+  const approve = async (questionId: string) => {
+    let response = true;
+    setIsLoading(false);
+    setError(false);
+    try {
+      await approveQuestion(questionId);
+    } catch (ex) {
+      response = false;
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+    return response;
+  };
+
+  const remove = async (questionId: string) => {
+    let response = true;
+    setIsLoading(false);
+    setError(false);
+    try {
+      await deleteQuestion(questionId);
+    } catch (ex) {
+      response = false;
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+    return response;
+  };
+
   return {
-    tableData,
-    headers,
-    isLoading: questionFetchingStatus === FETCHING_STATUS.FETCHING,
+    isLoading,
+    hasError,
     fetch,
+    save,
+    remove,
+    approve,
   };
 };
 

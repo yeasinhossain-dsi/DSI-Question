@@ -1,19 +1,27 @@
-import { Constants } from "@/config/constants";
-import { IQuestion, QuestionStatus } from "@/store/question";
-import { getUserInfoFromLocalStorage } from "@/utils/localStorage";
-import axios from "axios";
+import { IQuestion, IQuestionForm, QuestionStatus } from "@/store/question";
+import { get, post } from "@/utils/http";
 
 export const getQuestions = async (
   questionStatus?: QuestionStatus
 ): Promise<IQuestion> => {
   const queryParam = questionStatus ? `?questionType=${questionStatus}` : ``;
-  const response = await axios.get(
-    `${Constants.API_BASE_URL}/question${queryParam}`,
-    {
-      headers: {
-        Authorization: `Bearer ${getUserInfoFromLocalStorage()?.jwtToken}`,
-      },
-    }
-  );
-  return response.data;
+  return await get(`/question${queryParam}`);
+};
+
+export const saveQuestions = async (
+  payload: IQuestionForm
+): Promise<IQuestion> => {
+  return await post(`/question`, payload);
+};
+
+export const deleteQuestion = async (
+  questionId: string
+): Promise<IQuestion> => {
+  return await get(`/question/remove/${questionId}`);
+};
+
+export const approveQuestion = async (
+  questionId: string
+): Promise<IQuestion> => {
+  return await get(`/question/approve/${questionId}`);
 };

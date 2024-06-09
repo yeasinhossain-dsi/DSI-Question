@@ -29,7 +29,7 @@ const TableComponent = ({
   className = "",
 }: IProps) => {
   return (
-    <div className={`overflow-x-auto ${className}`}>
+    <div className={`${className}`}>
       <Table>
         <Table.Head>
           {headerColumns.map((column, index) => (

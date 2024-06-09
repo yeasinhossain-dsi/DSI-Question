@@ -10,16 +10,20 @@ export enum QuestionStatus {
   MY = "myQuestions",
 }
 
-export interface IQuestion {
+export interface IQuestionForm {
   id: string;
   title: string;
   content: string;
+}
+
+export interface IQuestion extends IQuestionForm {
   author: IUser;
   approvers: IUser[];
+  createdAt: number;
 }
 
 interface IQuestionAction {
-  getQuestion: (status: QuestionStatus) => void;
+  getQuestion: (status?: QuestionStatus) => void;
 }
 
 export interface QuestionState extends IQuestionAction {
@@ -33,20 +37,28 @@ const userStore: StateCreator<QuestionState, [], [], QuestionState> = (
 ) => ({
   questions: [],
   questionFetchingStatus: FETCHING_STATUS.IDLE,
-  getQuestion: async (status: QuestionStatus) => {
+  getQuestion: async (status?: QuestionStatus) => {
     set(
       produce((state) => {
         state.questionFetchingStatus = FETCHING_STATUS.FETCHING;
         state.questions = [];
       })
     );
-    const questions = await getQuestions(status);
-    set(
-      produce((state) => {
-        state.questionFetchingStatus = FETCHING_STATUS.SUCCESS;
-        state.questions = questions;
-      })
-    );
+    try {
+      const questions = await getQuestions(status);
+      set(
+        produce((state) => {
+          state.questionFetchingStatus = FETCHING_STATUS.SUCCESS;
+          state.questions = questions;
+        })
+      );
+    } catch (ex) {
+      set(
+        produce((state) => {
+          state.questionFetchingStatus = FETCHING_STATUS.ERROR;
+        })
+      );
+    }
   },
 });
 

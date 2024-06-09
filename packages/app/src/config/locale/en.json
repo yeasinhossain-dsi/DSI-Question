@@ -1,20 +1,42 @@
 {
   "application.name": "Question Bank",
+
   "heading.welcome": "Welcome to Question Bank",
   "heading.newQuestion": "New Question",
+
   "label.email": "Email",
   "label.name": "Name",
+
   "link.signOut": "Log Out",
-  "button.question.add": "Add Question",
-  "button.save": "Save",
-  "button.close": "Close",
+
   "placeholder.signInWithEmail": "Sign in with Google",
+
   "form.label.title": "Title",
+
   "tab.label.latest": "Latest",
   "tab.label.approved": "Approved",
   "tab.label.myQuestion": "My Questions",
+
   "common.label.fetching": "Fetching...",
   "common.label.noData": "No Data found",
+  "common.noUnApproved": "No un-approved questions found",
 
-  "questions.label.noUnApproved": "No un-approved questions found"
+  "notification.success.questionSaved": "Your question was successfully saved.",
+  "notification.success.approve": "Your selected question was approved",
+  "notification.success.remove": "Your selected question was removed",
+  "notification.error.saveQuestion": "There was a problem saving the question",
+  "notification.error.approve": "There was a problem approving the question",
+  "notification.error.remove": "There was a problem removing the question",
+
+  "confirmation.approve": "Are you sure you wan to approve this question?",
+  "confirmation.remove": "Are you sure you wan to delete this question?",
+
+  "cta.add": "Add Question",
+  "cta.Confirm": "Confirm",
+  "cta.Cancel": "Cancel",
+  "cta.view": "View",
+  "cta.remove": "Delete",
+  "cta.approve": "Approve",
+  "cta.save": "Save",
+  "cta.close": "Close"
 }
