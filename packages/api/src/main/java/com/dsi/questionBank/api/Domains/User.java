@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User extends Auditable {
+public class User {
 
     public User(String name, String email, String picture, String referenceID) {
         this.name = name;
