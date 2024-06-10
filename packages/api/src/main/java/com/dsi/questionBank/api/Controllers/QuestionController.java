@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dsi.questionBank.api.Config.ErrorCode;
 import com.dsi.questionBank.api.DTO.QuestionRequest;
-import com.dsi.questionBank.api.DTO.QuestionsSimpleListResponse;
 import com.dsi.questionBank.api.Domains.Question;
 import com.dsi.questionBank.api.Domains.User;
 import com.dsi.questionBank.api.Exceptions.ValidationException;
