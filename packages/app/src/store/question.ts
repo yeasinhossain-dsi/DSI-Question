@@ -32,8 +32,7 @@ export interface QuestionState extends IQuestionAction {
 }
 
 const userStore: StateCreator<QuestionState, [], [], QuestionState> = (
-  set,
-  get
+  set
 ) => ({
   questions: [],
   questionFetchingStatus: FETCHING_STATUS.IDLE,

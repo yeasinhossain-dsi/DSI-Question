@@ -3,6 +3,7 @@ import TableComponent, { IColumn } from "@/components/base/table/Table";
 import { Constants } from "@/config/constants";
 import useStore from "@/store";
 import { IQuestion, QuestionStatus } from "@/store/question";
+import { truncateTitle } from "@/utils/common";
 import ThreeDots from "@components/icons/ThreeDots";
 import { format } from "date-fns";
 import { Button, Dropdown, Tabs, Tooltip } from "flowbite-react";
@@ -16,7 +17,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ToastOptions, toast } from "react-toastify";
 import NewQuestionModal from "./NewQuestionModal";
 import useQuestions from "./useQuestions";
-import { truncateTitle } from "@/utils/common";
 
 const ToastSetting = {
   position: "top-right",
@@ -25,7 +25,6 @@ const ToastSetting = {
 
 const Questions = () => {
   const intl = useIntl();
-  const [show, setShow] = useState(false);
   const [showConfirmApproval, setShowConfirmApproval] = useState(false);
   const [showConfirmRemoval, setShowConfirmRemoval] = useState(false);
   const [showQuestionView, setShowQuestionView] = useState(false);

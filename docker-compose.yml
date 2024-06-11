@@ -11,9 +11,8 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: question
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     networks:
       - mysql-phpmyadmin
 
@@ -27,9 +26,36 @@ services:
       - "8090:80"
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - mysql-phpmyadmin
+
+  api:
+    build: ./packages/api/.
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL}
+      SECURITY_JWT_SECRET_KEY: ${SECURITY_JWT_SECRET_KEY}
+      SECURITY_JWT_EXPIRATION_TIME: ${SECURITY_JWT_EXPIRATION_TIME}
+    networks:
+      - mysql-phpmyadmin
+
+  app:
+    build:
+      context: ./packages/app/.
+      args:
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL} # Change this to the actual API base URL if needed
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
 
 networks:
   mysql-phpmyadmin:

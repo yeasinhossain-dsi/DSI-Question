@@ -3,12 +3,6 @@ import { getUserInfoFromLocalStorage } from "./localStorage";
 import { Constants } from "@/config/constants";
 import useStore from "@/store";
 
-interface IErrorResponse {
-  message: string;
-  status: number;
-  timestamp: number;
-}
-
 const error = (ex: any) => {
   if ([401, 403].includes(ex.response.status)) {
     useStore.getState().googleLogout();

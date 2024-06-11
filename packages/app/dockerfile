@@ -1,0 +1,27 @@
+# Use an official Node.js runtime as a parent image
+FROM node:21-alpine AS build
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and yarn.lock
+COPY package.json yarn.lock ./
+
+# Install dependencies using Yarn
+RUN yarn install
+
+# Copy the rest of the application code
+COPY . .
+
+# Set the build argument for VITE_API_BASE_URL
+ARG VITE_API_BASE_URL
+
+# Ensure the build argument is available as an environment variable
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+
+# Build the application
+RUN yarn build
+
+EXPOSE 3000
+
+CMD [ "yarn", "preview" ]

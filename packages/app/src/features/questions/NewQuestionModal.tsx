@@ -35,7 +35,7 @@ const NewQuestionModal = ({ show, onClose, selectedQuestion }: IProps) => {
     questions,
   } = useStore();
 
-  const sanitizedHtml = DOMPurify.sanitize(selectedQuestion?.content);
+  const sanitizedHtml = DOMPurify.sanitize(selectedQuestion?.content || "");
 
   useEffect(() => {
     setTitle(selectedQuestion?.title || "");
