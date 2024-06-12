@@ -30,7 +30,7 @@ const TableComponent = ({
 }: IProps) => {
   return (
     <div className={`${className}`}>
-      <Table>
+      <Table striped>
         <Table.Head>
           {headerColumns.map((column, index) => (
             <Table.HeadCell key={index} className={column.className}>

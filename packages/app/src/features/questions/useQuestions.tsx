@@ -30,6 +30,7 @@ const useQuestions = () => {
       response = await saveQuestions(payload);
     } catch (ex) {
       setError(true);
+      response = null;
     } finally {
       setIsLoading(false);
     }

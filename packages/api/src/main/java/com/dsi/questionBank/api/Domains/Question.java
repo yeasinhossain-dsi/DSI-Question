@@ -36,7 +36,8 @@ public class Question extends Auditable {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    // @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci")
     private String content;
 
     @ManyToOne(fetch = FetchType.EAGER)

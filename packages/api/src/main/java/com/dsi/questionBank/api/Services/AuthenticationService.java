@@ -1,5 +1,6 @@
 package com.dsi.questionBank.api.Services;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class AuthenticationService {
     @Autowired
     JwtService jwtService;
 
+    @Autowired
+    ImageService imageService;
+
     public UserInfo getUserInfo(String accessToken) {
         UserInfo userInfo = null;
         try {
@@ -35,24 +39,28 @@ public class AuthenticationService {
         return userInfo;
     }
 
-    public User upsert(UserInfo userInfo) {
+    public User upsert(UserInfo userInfo) throws IOException {
+        User userModel;
         Optional<User> user = userServices.findByEmail(userInfo.getEmail());
+        byte[] picture = imageService.fetchImageFromUrl(userInfo.getPicture());
+
         if (user.isPresent()) {
-            return user.get();
+            userModel = user.get();
         } else {
-            User newUser = new User(userInfo.getName(), userInfo.getEmail(), userInfo.getPicture(),
+            userModel = new User(userInfo.getName(), userInfo.getEmail(), userInfo.getPicture(),
                     userInfo.getId());
-            return userServices.save(newUser);
         }
+        userModel.setPicture(picture);
+        return userServices.save(userModel);
     }
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("details", user);
+        claims.put("details", user.getId());
         return jwtService.generateToken(claims, user);
     }
 
-    public AuthenticationResponse authenticate(String accessToken) {
+    public AuthenticationResponse authenticate(String accessToken) throws IOException {
         UserInfo userInfo = getUserInfo(accessToken);
         User user = upsert(userInfo);
         String jwtToken = generateToken(user);

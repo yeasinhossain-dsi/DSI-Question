@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dsi.questionBank.api.Domains.User;
@@ -25,6 +26,11 @@ public class UserServices {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public byte[] getPicture(UUID userId) throws NotFoundException {
+        User user = findById(userId).orElseThrow(NotFoundException::new);
+        return user.getPicture();
     }
 
 }

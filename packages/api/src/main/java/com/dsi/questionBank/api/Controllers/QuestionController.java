@@ -25,7 +25,6 @@ import com.dsi.questionBank.api.Services.QuestionService;
 import com.dsi.questionBank.api.Services.QuestionService.QuestionType;
 
 import jakarta.validation.Valid;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/question")

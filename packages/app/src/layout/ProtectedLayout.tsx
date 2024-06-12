@@ -1,6 +1,7 @@
 import Header from "@/components/base/header/Header";
 import useStore from "@/store";
 import { AUTH_STATUS } from "@/store/user";
+import { getUserPhotoUrl } from "@/utils/common";
 import { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +32,7 @@ const ProtectedLayout = ({ children }: IProps) => {
           email={userDetails.email}
           logout={googleLogout}
           name={`${userDetails.name}`}
-          picture={userDetails.picture}
+          picture={getUserPhotoUrl(userDetails.id)}
         />
         <div className="p-6">{children}</div>
       </>

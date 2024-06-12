@@ -3,7 +3,7 @@ import TableComponent, { IColumn } from "@/components/base/table/Table";
 import { Constants } from "@/config/constants";
 import useStore from "@/store";
 import { IQuestion, QuestionStatus } from "@/store/question";
-import { truncateTitle } from "@/utils/common";
+import { getUserPhotoUrl, truncateTitle } from "@/utils/common";
 import ThreeDots from "@components/icons/ThreeDots";
 import { format } from "date-fns";
 import { Button, Dropdown, Tabs, Tooltip } from "flowbite-react";
@@ -121,13 +121,20 @@ const Questions = () => {
     return (questions || []).map((question) => {
       return {
         id: question.id,
-        title: truncateTitle(question.title),
+        title: (
+          <span
+            onClick={() => onClickView(question)}
+            className="cursor-pointer text-blue-900"
+          >
+            {truncateTitle(question.title)}
+          </span>
+        ),
         author: (
           <div className="flex gap-2 content-center items-center leading-3">
             <img
               className="rounded-full"
               width={36}
-              src={question.author.picture}
+              src={getUserPhotoUrl(question.author.id)}
             />
             <div className="flex flex-col">
               <span className="text-lg text-black">{question.author.name}</span>
@@ -151,7 +158,7 @@ const Questions = () => {
                     <img
                       className="rounded-full"
                       width={36}
-                      src={approver.picture}
+                      src={getUserPhotoUrl(approver.id)}
                     />
                   </Tooltip>
                 </div>

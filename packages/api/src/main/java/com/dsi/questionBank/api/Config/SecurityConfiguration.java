@@ -25,6 +25,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/auth/**")
                         .permitAll()
+                        .requestMatchers("/user/picture/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(management -> management

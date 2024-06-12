@@ -28,7 +28,7 @@ const NewQuestionModal = ({ show, onClose, selectedQuestion }: IProps) => {
   const [content, setContent] = useState<string>(
     selectedQuestion?.content || ""
   );
-  const { hasError, isLoading, save, fetch } = useQuestions();
+  const { isLoading, save, fetch } = useQuestions();
   const { questionStatus } = useParams();
   const {
     userDetails: { data: userDetails },
@@ -67,9 +67,13 @@ const NewQuestionModal = ({ show, onClose, selectedQuestion }: IProps) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await save({ id: selectedQuestion?.id, title, content } as IQuestionForm);
+    const response = await save({
+      id: selectedQuestion?.id,
+      title,
+      content,
+    } as IQuestionForm);
     await fetch(questionStatus as QuestionStatus);
-    if (hasError) {
+    if (isEmpty(response)) {
       errorNotify();
       return;
     }
