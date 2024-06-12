@@ -47,8 +47,7 @@ public class AuthenticationService {
         if (user.isPresent()) {
             userModel = user.get();
         } else {
-            userModel = new User(userInfo.getName(), userInfo.getEmail(), userInfo.getPicture(),
-                    userInfo.getId());
+            userModel = new User(userInfo.getName(), userInfo.getEmail(), userInfo.getId());
         }
         userModel.setPicture(picture);
         return userServices.save(userModel);

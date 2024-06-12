@@ -31,10 +31,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "users")
 public class User {
 
-    public User(String name, String email, String picture, String referenceID) {
+    public User(String name, String email, String referenceID) {
         this.name = name;
         this.email = email;
-        this.picture = picture;
         this.referenceID = referenceID;
     }
 
