@@ -160,7 +160,7 @@ const NewQuestionModal = ({ show, onClose, selectedQuestion }: IProps) => {
                 />
               </div>
 
-              <div className="flex flex-grow pb-10">
+              <div className="flex flex-grow pb-12 overflow-hidden">
                 <ReactQuill
                   className="flex-1"
                   theme="snow"
