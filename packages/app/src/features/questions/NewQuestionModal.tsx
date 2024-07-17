@@ -35,6 +35,8 @@ const NewQuestionModal = ({ show, onClose, selectedQuestion }: IProps) => {
     questions,
   } = useStore();
 
+  const isFormValid = title.length && content.trim().length > 20;
+
   const sanitizedHtml = DOMPurify.sanitize(selectedQuestion?.content || "");
 
   useEffect(() => {
@@ -174,7 +176,11 @@ const NewQuestionModal = ({ show, onClose, selectedQuestion }: IProps) => {
           </Modal.Body>
           <Modal.Footer>
             <div className="flex w-full justify-end">
-              <Button color={"success"} type="submit" disabled={isLoading}>
+              <Button
+                color={"success"}
+                type="submit"
+                disabled={isLoading || !isFormValid}
+              >
                 <FormattedMessage id="cta.save" />
               </Button>
             </div>
